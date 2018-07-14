@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -36,6 +36,16 @@ namespace TaskParallelLibSample
                 Console.WriteLine("started calculating CTC for {0}", employee.Name);
                 employee.CalculateTotalCostToCompany();
                 Console.WriteLine("calculated CTC for {0} is {1}", employee.Name, employee.TotalAllowance);
+            });
+
+            Console.WriteLine("####################### Checking parallel options #######################");
+
+            ParallelOptions po = new ParallelOptions();
+            po.MaxDegreeOfParallelism = Environment.ProcessorCount;
+
+            Parallel.ForEach(employees, po, (employee) =>
+            {
+                Console.WriteLine("Employee {0} processed by Task - {1}", employee.Name, Task.CurrentId);
             });
 
             Console.WriteLine("press any key to quit");
